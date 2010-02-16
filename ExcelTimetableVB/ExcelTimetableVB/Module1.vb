@@ -21,7 +21,7 @@ Module Module1
             Console.WriteLine(day)
             outputfile.WriteLine(String.Format("DAY:{0}", day))
 
-            For col As Integer = (2 + 3) To (xlRange.Columns.Count - 1) Step 3 ' the plus 3 is for debugging
+            For col As Integer = 2 To (xlRange.Columns.Count - 1) Step 3
                 Dim period As String = (xlRange.Cells(3, col).Value) ' "Period 1"
                 Console.WriteLine(vbTab & period)
                 For Each year As Integer In yearandrows.Keys
