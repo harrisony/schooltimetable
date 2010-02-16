@@ -51,7 +51,6 @@ Module Timetable
                 Next year
             Next col
         Next xlWorkSheet
-        Console.WriteLine("DONE")
         outputfile.Close()
     End Sub
     Function MatchYearsAndRows(ByVal spreadsheet As Excel.Range) As Dictionary(Of Integer, Array)
