@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{19C6C881-73BA-48D6-AF3C-FA9A6E6F1C82}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>ExcelTimetableVB.Module1</StartupObject>
+    <StartupObject>ExcelTimetableVB.Timetable</StartupObject>
     <RootNamespace>ExcelTimetableVB</RootNamespace>
     <AssemblyName>ExcelTimetableVB</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -63,7 +63,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
+    <Compile Include="Students.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -79,6 +79,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Timetable.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

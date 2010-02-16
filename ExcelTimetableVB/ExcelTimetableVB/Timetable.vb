@@ -1,7 +1,7 @@
 ﻿Imports Excel = Microsoft.Office.Interop.Excel
 Imports System.Text.RegularExpressions
 Imports System.IO
-Module Module1
+Module Timetable
     Public xlApp As Excel.Application
     Public xlWorkBook As Excel.Workbook
     Public xlRange As Excel.Range
@@ -12,7 +12,7 @@ Module Module1
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Mater TT Term 1  4 Feb.xls")
 
 
-        Dim outputfile As StreamWriter = New StreamWriter("C:\test.txt")
+        Dim outputfile As StreamWriter = New StreamWriter("timetable.txt")
         For Each xlWorkSheet As Excel.Worksheet In xlWorkBook.Worksheets
             xlRange = xlWorkSheet.UsedRange
             yearandrows = MatchYearsAndRows(xlRange)
@@ -26,7 +26,7 @@ Module Module1
                 Console.WriteLine(vbTab & period)
                 For Each year As Integer In yearandrows.Keys
                     Dim q As Array = yearandrows(year) ' an array with the row it starts from and number of classes
-                    outputfile.WriteLine(String.Format("YER:{0}", 11))
+                    outputfile.WriteLine(String.Format("YER:{0}", year))
                     For row As Integer = q(0) To (q(0) + q(1))
                         If (xlRange.Cells(row, col).Value <> "") Then
                             Dim aclass As New SClass
