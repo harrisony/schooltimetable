@@ -28,7 +28,7 @@ Module Timetable
                     Dim q As Array = yearandrows(year) ' an array with the row it starts from and number of classes
                     outputfile.WriteLine(String.Format("YER:{0}", year))
                     For row As Integer = q(0) To (q(0) + q(1))
-                        If (xlRange.Cells(row, col).Value <> "") Then
+                        If (xlRange.Cells(row, col).Value <> vbNullString) Then
                             Dim aclass As New SClass
                             aclass.classid = xlRange.Cells(row, col).Value
                             aclass.classroom = xlRange.Cells(row, col + 1).Value
@@ -43,8 +43,7 @@ Module Timetable
                                 aclass.period = period.Split(" ")(1)
                             End If
 
-                            Dim teststring As String = aclass.tofile()
-                            outputfile.WriteLine(String.Format("PER:{0}", teststring))
+                            outputfile.WriteLine(String.Format("PER:{0}", aclass.tofile()))
 
                         End If
                     Next row
