@@ -8,6 +8,9 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
+        Call all()
+    End Sub
+    Sub all()
         Dim outputfile As StreamWriter = New StreamWriter("students.txt")
         For row As Integer = 2 To (xlRange.Rows.Count) ' skip the titles row
             For col As Integer = 1 To (xlRange.Columns.Count)
