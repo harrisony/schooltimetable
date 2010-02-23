@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{19C6C881-73BA-48D6-AF3C-FA9A6E6F1C82}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>ExcelTimetableVB.Main</StartupObject>
+    <StartupObject>ExcelTimetableVB.Students</StartupObject>
     <RootNamespace>ExcelTimetableVB</RootNamespace>
     <AssemblyName>ExcelTimetableVB</AssemblyName>
     <FileAlignment>512</FileAlignment>
