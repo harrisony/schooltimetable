@@ -8,7 +8,7 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-        Call classes()
+        Call students()
     End Sub
     Sub classes()
         Dim outputfile As StreamWriter = New StreamWriter("classes.txt")
@@ -24,7 +24,23 @@ Module Students
         Next row
         outputfile.Close()
     End Sub
+    Sub students()
+        Dim outputfile As StreamWriter = New StreamWriter("students.txt")
+        Dim students As New ArrayList
+        For row As Integer = 2 To (xlRange.Rows.Count)
+            Dim stunumber As Integer = xlRange.Cells(row, 1).Value
+            Dim surname As String = xlRange.Cells(row, 2).Value
+            Dim cname As String = xlRange.Cells(row, 3).Value
+            Dim house As String = xlRange.Cells(row, 4).Value
+            If Not students.Contains(stunumber) Then
+                students.Add(stunumber)
+                Dim q As String = String.Format("{0},{1},{2},{3}", stunumber, surname, cname, house)
+                outputfile.WriteLine(q)
+                Console.WriteLine(q)
+            End If
 
+        Next
+    End Sub
     Sub all()
         Dim outputfile As StreamWriter = New StreamWriter("students.txt")
         For row As Integer = 2 To (xlRange.Rows.Count) ' skip the titles row
