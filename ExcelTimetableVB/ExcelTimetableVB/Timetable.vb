@@ -11,7 +11,6 @@ Module Timetable
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Mater TT Term 1  4 Feb.xls")
 
-
         Dim outputfile As StreamWriter = New StreamWriter("timetable.txt")
         For Each xlWorkSheet As Excel.Worksheet In xlWorkBook.Worksheets
             xlRange = xlWorkSheet.UsedRange
@@ -33,15 +32,16 @@ Module Timetable
                             aclass.classid = xlRange.Cells(row, col).Value
                             aclass.classroom = xlRange.Cells(row, col + 1).Value
                             aclass.teacher = xlRange.Cells(row, col + 2).Value
-                            If (period = "Before School") Then
-                                aclass.period = "A"
-                            ElseIf (period = "Lunch") Then
-                                aclass.period = "Lunch"
-                            ElseIf (period = "After School") Then
-                                aclass.period = "C"
-                            Else
-                                aclass.period = period.Split(" ")(1)
-                            End If
+                            Select Case period
+                                Case "Before School"
+                                    aclass.period = "A"
+                                Case "Lunch"
+                                    aclass.period = "Lunch"
+                                Case "After School"
+                                    aclass.period = "C"
+                                Case Else
+                                    aclass.period = period.Split(" ")(1)
+                            End Select
 
                             outputfile.WriteLine(String.Format("PER:{0}", aclass.tofile()))
 
