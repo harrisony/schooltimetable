@@ -8,7 +8,7 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-        Call students()
+        Call classes()
     End Sub
     Sub classes()
         Dim outputfile As StreamWriter = New StreamWriter("classes.txt")
@@ -16,11 +16,16 @@ Module Students
         For row As Integer = 2 To (xlRange.Rows.Count) ' skip the titles row
             Dim code As String = xlRange.Cells(row, 5).Value
             Dim fullname As String = xlRange.Cells(row, 6).Value
+            Dim course As String
+            If fullname.Split()(0) = "IB" Then
+                course = "IB"
+            Else
+                course = "HSC"
+            End If
             If Not classes.Contains(code) Then
                 classes.Add(code)
-                outputfile.WriteLine(String.Format("{0},{1}", code, fullname))
+                outputfile.WriteLine(String.Format("{0},{1},{2}", code, fullname, course))
             End If
-
         Next row
         outputfile.Close()
     End Sub
@@ -38,7 +43,6 @@ Module Students
                 outputfile.WriteLine(q)
                 Console.WriteLine(q)
             End If
-
         Next
     End Sub
     Sub all()
