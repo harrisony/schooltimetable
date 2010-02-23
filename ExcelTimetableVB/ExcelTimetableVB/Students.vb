@@ -8,7 +8,7 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-        Call classes()
+        Call matchstudentswithclasses()
     End Sub
     Sub classes()
         Dim outputfile As StreamWriter = New StreamWriter("classes.txt")
@@ -43,6 +43,16 @@ Module Students
                 outputfile.WriteLine(q)
                 Console.WriteLine(q)
             End If
+        Next
+    End Sub
+    Sub matchstudentswithclasses()
+        Dim outputfile As StreamWriter = New StreamWriter("studentandclass.txt")
+        Dim sandc As New Dictionary(Of Integer, ArrayList)
+        For row As Integer = 2 To (xlRange.Rows.Count)
+            If Not sandc.Keys.Contains(xlRange.Cells(row, 1).Value) Then
+                sandc.Add((xlRange.Cells(row, 1).Value), New ArrayList)
+            End If
+            sandc(xlRange.Cells(row, 1).Value).Add(xlRange.Cells(row, 5).Value)
         Next
     End Sub
     Sub all()
