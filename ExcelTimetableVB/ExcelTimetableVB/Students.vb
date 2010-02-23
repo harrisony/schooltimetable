@@ -20,7 +20,7 @@ Module Students
             If fullname.Split()(0) = "IB" Then
                 course = "IB"
             Else
-                course = "HSC"
+                course = String.Format("HSC{0}{1}", xlRange.Cells(row, 7).Value, xlRange.Cells(row, 8).Value)
             End If
             If Not classes.Contains(code) Then
                 classes.Add(code)
