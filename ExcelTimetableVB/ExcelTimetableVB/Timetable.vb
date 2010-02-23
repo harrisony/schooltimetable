@@ -6,7 +6,6 @@ Module Timetable
     Public xlWorkBook As Excel.Workbook
     Public xlRange As Excel.Range
     Sub Main()
-        Dim day As String
         Dim yearandrows As Dictionary(Of Integer, Array) ' A mapping of the Year level to how many rows
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Mater TT Term 1  4 Feb.xls")
@@ -15,7 +14,7 @@ Module Timetable
         For Each xlWorkSheet As Excel.Worksheet In xlWorkBook.Worksheets
             xlRange = xlWorkSheet.UsedRange
             yearandrows = MatchYearsAndRows(xlRange)
-            day = GetDate(xlRange)
+            Dim day As String = GetDate(xlRange)
 
             Console.WriteLine(day)
             outputfile.WriteLine(String.Format("DAY:{0}", day))
