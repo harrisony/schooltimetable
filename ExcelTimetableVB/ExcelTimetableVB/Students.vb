@@ -1,5 +1,4 @@
 ﻿Imports Excel = Microsoft.Office.Interop.Excel
-Imports System.Text.RegularExpressions
 Imports System.IO
 Module Students
     Public xlApp As Excel.Application
