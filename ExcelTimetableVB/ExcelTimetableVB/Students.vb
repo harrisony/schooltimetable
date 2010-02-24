@@ -6,7 +6,7 @@ Module Students
     Public xlRange As Excel.Range
     Sub Main()
         xlApp = New Excel.ApplicationClass
-        xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
+        xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls", , True)
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
         Console.WriteLine("Classes")
         Call classes()

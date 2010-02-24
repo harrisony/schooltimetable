@@ -8,7 +8,7 @@ Module Timetable
     Sub Main()
         Dim yearandrows As Dictionary(Of Integer, Array) ' A mapping of the Year level to how many rows
         xlApp = New Excel.ApplicationClass
-        xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Mater TT Term 1  4 Feb.xls")
+        xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Mater TT Term 1  4 Feb.xls", , True)
 
         Dim outputfile As StreamWriter = New StreamWriter("timetable.txt")
         For Each xlWorkSheet As Excel.Worksheet In xlWorkBook.Worksheets
