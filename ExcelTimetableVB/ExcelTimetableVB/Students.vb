@@ -8,7 +8,7 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-        Call matchstudentswithclasses()
+        Call students()
     End Sub
     Sub classes()
         Dim outputfile As StreamWriter = New StreamWriter("classes.txt")
@@ -38,7 +38,7 @@ Module Students
             Dim cname As String = xlRange.Cells(row, 3).Value
             Dim house As String = xlRange.Cells(row, 4).Value
             ' Do we need to add year here?
-            If Not students.Contains(stunumber) Then
+            If Not students.Contains(stunumber) And Not house = "NEW" Then ' NEW students already have houses
                 students.Add(stunumber)
                 Dim q As String = String.Format("{0},{1},{2},{3}", stunumber, surname, cname, house)
                 outputfile.WriteLine(q)
