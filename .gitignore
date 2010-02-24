@@ -27,4 +27,12 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+##python specfic
+*.pyc
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
 
