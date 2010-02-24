@@ -8,7 +8,12 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls")
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
+        Console.WriteLine("Classes")
+        Call classes()
+        Console.WriteLine("Students")
         Call students()
+        Console.Write("Students and Classes")
+        Call matchstudentswithclasses()
     End Sub
     Sub classes()
         Dim outputfile As StreamWriter = New StreamWriter("classes.txt")
