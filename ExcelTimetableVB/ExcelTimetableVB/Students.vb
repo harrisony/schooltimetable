@@ -8,13 +8,14 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls", , True)
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-        'Console.WriteLine("Classes")
-        'Call classes()
-        Call createnewdb()
 
+        Call createnewdb()
+        Console.WriteLine("Classes")
+        Call classes()
+        Console.WriteLine("Students")
+        Call students()
+        Console.Write("Students and Classes")
         Call matchstudentswithclasses()
-        'Console.Write("Students and Classes")
-        'Call matchstudentswithclasses()
     End Sub
     Sub classes()
         Dim db As New SQLite.SQLiteConnection("data source=students.db")
@@ -57,10 +58,9 @@ Module Students
             ' Do we need to add year here?
             If Not students.Contains(k(0).Value) And Not k(3).Value = "NEW" Then ' NEW students already have houses
                 students.Add(k(0).Value)
-                Dim q As String = String.Format("{0},{1},{2},{3}", k(0).Value, k(1).Value, k(2).Value, k(3).Value)
+                Console.WriteLine(String.Format("{0},{1},{2},{3}", k(0).Value, k(1).Value, k(2).Value, k(3).Value))
                 dbquery.Parameters.AddRange(k)
                 dbquery.ExecuteNonQuery()
-                Console.WriteLine(q)
             End If
         Next row
         db.Close()
@@ -73,7 +73,6 @@ Module Students
             dbquery.CommandText = "INSERT INTO StudentsClasses VALUES(@stunumber,@class)"
             Dim k(1) As SQLite.SQLiteParameter
             k(0) = New SQLite.SQLiteParameter("@stunumber", xlRange.Cells(row, 1).Value)
-
             k(1) = New SQLite.SQLiteParameter("@class", xlRange.Cells(row, 5).Value)
             Console.WriteLine(String.Format("{0} {1}",CStr(k(0).Value), k(1).Value)
             dbquery.Parameters.AddRange(k)
