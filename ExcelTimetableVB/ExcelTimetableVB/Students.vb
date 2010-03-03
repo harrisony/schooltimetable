@@ -69,6 +69,29 @@ Module Students
         Next row
         db.Close()
     End Sub
+    Sub matchstudentswithclasses()
+        Dim outputfile As StreamWriter = New StreamWriter("studentandclass.txt")
+        Dim sandc As New Dictionary(Of Integer, ArrayList)
+
+        For row As Integer = 2 To (xlRange.Rows.Count)
+            If Not sandc.Keys.Contains(xlRange.Cells(row, 1).Value) Then
+                sandc.Add((xlRange.Cells(row, 1).Value), New ArrayList)
+            End If
+            sandc(xlRange.Cells(row, 1).Value).Add(xlRange.Cells(row, 5).Value)
+        Next row
+
+        For Each item As KeyValuePair(Of Integer, ArrayList) In sandc
+            outputfile.Write(String.Format("{0},{1}", item.Key, Chr(34)))
+            For i As Integer = 0 To item.Value.Count - 1
+                If i = item.Value.Count - 1 Then
+                    outputfile.WriteLine(item.Value(i) & Chr(34)) ' Chr(34) = "
+                Else
+                    outputfile.Write(item.Value(i) & ",")
+                End If
+            Next i
+        Next item
+        outputfile.Close()
+    End Sub
     Sub createnewdb()
         '' DEBUG ONLY ''
         Dim fi As New FileInfo("students.db")
