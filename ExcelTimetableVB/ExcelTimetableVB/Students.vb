@@ -61,7 +61,6 @@ Module Students
             If Not students.Contains(k(0).Value) And Not k(3).Value = "NEW" Then ' NEW students already have houses
                 students.Add(k(0).Value)
                 Dim q As String = String.Format("{0},{1},{2},{3}", k(0).Value, k(1).Value, k(2).Value, k(3).Value)
-
                 dbquery.Parameters.AddRange(k)
                 dbquery.ExecuteNonQuery()
                 Console.WriteLine(q)
