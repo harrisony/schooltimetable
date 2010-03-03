@@ -38,7 +38,6 @@ Module Students
                 classes.Add(k(0).Value)
                 dbquery.Parameters.AddRange(k)
                 dbquery.ExecuteNonQuery()
-
             End If
         Next row
         db.Close()
@@ -96,6 +95,7 @@ Module Students
         Dim fi As New FileInfo("students.db")
         fi.Delete()
         '' DEBUG ONLY ''
+        ' I don't like this section
         Dim fileexist As Boolean
         Try
             GetAttr("students.db")
