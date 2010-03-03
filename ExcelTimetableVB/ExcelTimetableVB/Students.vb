@@ -8,7 +8,7 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls", , True)
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-
+        Console.WriteLine("Creating Database")
         Call createnewdb()
         Console.WriteLine("Classes")
         Call classes()
@@ -38,6 +38,7 @@ Module Students
                 classes.Add(k(0).Value)
                 dbquery.Parameters.AddRange(k)
                 dbquery.ExecuteNonQuery()
+                Console.WriteLine(vbTab & k(0).Value)
             End If
         Next row
         db.Close()
@@ -58,7 +59,7 @@ Module Students
             ' Do we need to add year here?
             If Not students.Contains(k(0).Value) And Not k(3).Value = "NEW" Then ' NEW students already have houses
                 students.Add(k(0).Value)
-                Console.WriteLine(String.Format("{0},{1},{2},{3}", k(0).Value, k(1).Value, k(2).Value, k(3).Value))
+                Console.WriteLine(vbTab & String.Format("{0},{1},{2},{3}", k(0).Value, k(1).Value, k(2).Value, k(3).Value))
                 dbquery.Parameters.AddRange(k)
                 dbquery.ExecuteNonQuery()
             End If
@@ -74,7 +75,7 @@ Module Students
             Dim k(1) As SQLite.SQLiteParameter
             k(0) = New SQLite.SQLiteParameter("@stunumber", xlRange.Cells(row, 1).Value)
             k(1) = New SQLite.SQLiteParameter("@class", xlRange.Cells(row, 5).Value)
-            Console.WriteLine(String.Format("{0} {1}",CStr(k(0).Value), k(1).Value)
+            Console.WriteLine(vbTab & String.Format("{0} {1}", CStr(k(0).Value), k(1).Value))
             dbquery.Parameters.AddRange(k)
             dbquery.ExecuteNonQuery()
         Next row
