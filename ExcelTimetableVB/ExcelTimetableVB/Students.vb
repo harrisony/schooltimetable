@@ -68,30 +68,17 @@ Module Students
     Sub matchstudentswithclasses()
         Dim db As New SQLite.SQLiteConnection("data source=students.db")
         db.Open()
-        Dim outputfile As StreamWriter = New StreamWriter("studentandclass.txt")
-        Dim sandc As New Dictionary(Of Integer, ArrayList)
-
         For row As Integer = 2 To (xlRange.Rows.Count)
-            If Not sandc.Keys.Contains(xlRange.Cells(row, 1).Value) Then
-                sandc.Add((xlRange.Cells(row, 1).Value), New ArrayList)
-            End If
-            sandc(xlRange.Cells(row, 1).Value).Add(xlRange.Cells(row, 5).Value)
+            Dim dbquery As New SQLite.SQLiteCommand(db)
+            dbquery.CommandText = "INSERT INTO StudentsClasses VALUES(@stunumber,@class)"
+            Dim k(1) As SQLite.SQLiteParameter
+            k(0) = New SQLite.SQLiteParameter("@stunumber", xlRange.Cells(row, 1).Value)
+
+            k(1) = New SQLite.SQLiteParameter("@class", xlRange.Cells(row, 5).Value)
+            Console.WriteLine(String.Format("{0} {1}",CStr(k(0).Value), k(1).Value)
+            dbquery.Parameters.AddRange(k)
+            dbquery.ExecuteNonQuery()
         Next row
-        ' It gets really really slow here
-        For Each item As KeyValuePair(Of Integer, ArrayList) In sandc
-            outputfile.Write(String.Format("{0},{1}", item.Key, Chr(34)))
-            For i As Integer = 0 To item.Value.Count - 1
-                Dim dbquery As New SQLite.SQLiteCommand(db)
-                dbquery.CommandText = "INSERT INTO StudentsClasses VALUES(@stunumber,@class)"
-                Dim k(1) As SQLite.SQLiteParameter
-                k(0) = New SQLite.SQLiteParameter("@stunumber", item.Key)
-                k(1) = New SQLite.SQLiteParameter("@class", i)
-                dbquery.Parameters.AddRange(k)
-                dbquery.ExecuteNonQuery()
-            Next i
-            Console.WriteLine(item.Key)
-        Next item
-        outputfile.Close()
         db.Close()
     End Sub
     Sub createnewdb()
