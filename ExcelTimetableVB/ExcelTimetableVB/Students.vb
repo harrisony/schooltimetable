@@ -11,9 +11,8 @@ Module Students
         'Console.WriteLine("Classes")
         'Call classes()
         Call createnewdb()
-        Console.WriteLine("Students")
-        Call classes()
-        Call students()
+
+        Call matchstudentswithclasses()
         'Console.Write("Students and Classes")
         'Call matchstudentswithclasses()
     End Sub
@@ -54,8 +53,7 @@ Module Students
             k(1) = New SQLite.SQLiteParameter("@surname", xlRange.Cells(row, 2).Value)
             k(2) = New SQLite.SQLiteParameter("@cname", xlRange.Cells(row, 3).Value)
             k(3) = New SQLite.SQLiteParameter("@house", xlRange.Cells(row, 4).Value)
-            MsgBox(k(0).Value)
-            MsgBox(k(0))
+
             ' Do we need to add year here?
             If Not students.Contains(k(0).Value) And Not k(3).Value = "NEW" Then ' NEW students already have houses
                 students.Add(k(0).Value)
@@ -68,6 +66,8 @@ Module Students
         db.Close()
     End Sub
     Sub matchstudentswithclasses()
+        Dim db As New SQLite.SQLiteConnection("data source=students.db")
+        db.Open()
         Dim outputfile As StreamWriter = New StreamWriter("studentandclass.txt")
         Dim sandc As New Dictionary(Of Integer, ArrayList)
 
@@ -77,18 +77,22 @@ Module Students
             End If
             sandc(xlRange.Cells(row, 1).Value).Add(xlRange.Cells(row, 5).Value)
         Next row
-
+        ' It gets really really slow here
         For Each item As KeyValuePair(Of Integer, ArrayList) In sandc
             outputfile.Write(String.Format("{0},{1}", item.Key, Chr(34)))
             For i As Integer = 0 To item.Value.Count - 1
-                If i = item.Value.Count - 1 Then
-                    outputfile.WriteLine(item.Value(i) & Chr(34)) ' Chr(34) = "
-                Else
-                    outputfile.Write(item.Value(i) & ",")
-                End If
+                Dim dbquery As New SQLite.SQLiteCommand(db)
+                dbquery.CommandText = "INSERT INTO StudentsClasses VALUES(@stunumber,@class)"
+                Dim k(1) As SQLite.SQLiteParameter
+                k(0) = New SQLite.SQLiteParameter("@stunumber", item.Key)
+                k(1) = New SQLite.SQLiteParameter("@class", i)
+                dbquery.Parameters.AddRange(k)
+                dbquery.ExecuteNonQuery()
             Next i
+            Console.WriteLine(item.Key)
         Next item
         outputfile.Close()
+        db.Close()
     End Sub
     Sub createnewdb()
         '' DEBUG ONLY ''
@@ -110,6 +114,8 @@ Module Students
             k.CommandText = "CREATE TABLE [Students] ( [ComputerNumber] integer PRIMARY KEY NOT NULL, [Surname] text NOT NULL, [CName] text NOT NULL, [House] text NOT NULL)"
             k.ExecuteNonQuery()
             k.CommandText = "CREATE TABLE [Classes] ([Code] TEXT  NULL PRIMARY KEY,[Name] TEXT  NULL,[Course] TEXT  NULL,[Units] TEXT  NULL)"
+            k.ExecuteNonQuery()
+            k.CommandText = "CREATE TABLE [StudentsClasses] ( [ComputerNumber] INTEGER  NULL,[Class] TEXT  NULL)"
             k.ExecuteNonQuery()
             db.Close()
         End If
