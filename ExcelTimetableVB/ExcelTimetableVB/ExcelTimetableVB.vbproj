@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{19C6C881-73BA-48D6-AF3C-FA9A6E6F1C82}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>ExcelTimetableVB.Main</StartupObject>
+    <StartupObject>ExcelTimetableVB.Students</StartupObject>
     <RootNamespace>ExcelTimetableVB</RootNamespace>
     <AssemblyName>ExcelTimetableVB</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -59,6 +59,7 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.65.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core">

@@ -8,12 +8,13 @@ Module Students
         xlApp = New Excel.ApplicationClass
         xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Current_Yr11_Student_Subjects.xls", , True)
         xlRange = xlWorkBook.Worksheets("Current_Yr11_Student_Subjects").UsedRange
-        Console.WriteLine("Classes")
-        Call classes()
+        'Console.WriteLine("Classes")
+        'Call classes()
+        Call createnewdb()
         Console.WriteLine("Students")
         Call students()
-        Console.Write("Students and Classes")
-        Call matchstudentswithclasses()
+        'Console.Write("Students and Classes")
+        'Call matchstudentswithclasses()
     End Sub
     Sub classes()
         Dim outputfile As StreamWriter = New StreamWriter("classes.txt")
@@ -35,6 +36,9 @@ Module Students
         outputfile.Close()
     End Sub
     Sub students()
+        Dim db As New SQLite.SQLiteConnection("data source=students.db")
+        db.Open()
+
         Dim outputfile As StreamWriter = New StreamWriter("students.txt")
         Dim students As New ArrayList
         For row As Integer = 2 To (xlRange.Rows.Count)
@@ -46,10 +50,20 @@ Module Students
             If Not students.Contains(stunumber) And Not house = "NEW" Then ' NEW students already have houses
                 students.Add(stunumber)
                 Dim q As String = String.Format("{0},{1},{2},{3}", stunumber, surname, cname, house)
+                Dim dbquery As New SQLite.SQLiteCommand(db)
+                dbquery.CommandText = "INSERT INTO Students VALUES(@stunumber,@surname,@cname,@house)"
+                Dim k(3) As SQLite.SQLiteParameter
+                k(0) = New SQLite.SQLiteParameter("@stunumber", stunumber)
+                k(1) = New SQLite.SQLiteParameter("@surname", surname)
+                k(2) = New SQLite.SQLiteParameter("@cname", cname)
+                k(3) = New SQLite.SQLiteParameter("@house", house)
+                dbquery.Parameters.AddRange(k)
+                dbquery.ExecuteNonQuery()
                 outputfile.WriteLine(q)
                 Console.WriteLine(q)
             End If
         Next row
+        db.Close()
     End Sub
     Sub matchstudentswithclasses()
         Dim outputfile As StreamWriter = New StreamWriter("studentandclass.txt")
@@ -73,5 +87,25 @@ Module Students
             Next i
         Next item
         outputfile.Close()
+    End Sub
+    Sub createnewdb()
+        Dim fileexist As Boolean
+        Try
+            GetAttr("students.db")
+            fileexist = True
+        Catch ex As Exception
+            fileexist = False
+        End Try
+        If Not fileexist Then
+            Dim db As New SQLite.SQLiteConnection("data source=students.db")
+            db.Open()
+            Dim k As New SQLite.SQLiteCommand(db)
+
+
+            k.CommandText = "CREATE TABLE [Students] ( [ComputerNumber] integer PRIMARY KEY NOT NULL, [Surname] text NOT NULL, [CName] text NOT NULL, [House] text NOT NULL)"
+            k.ExecuteNonQuery()
+            db.Close()
+        End If
+        
     End Sub
 End Module
