@@ -4,17 +4,15 @@ Module Students
     Sub Main()
         Console.WriteLine("Creating Database")
         Call SQL.createnewdb()
-        Console.WriteLine("Classes")
-        Call classes()
-        Console.WriteLine("Students")
-        Call students()
-        Console.Write("Students and Classes")
-        Call matchstudentswithclasses()
+        Console.WriteLine("Running Main")
+        Call MainMain()
     End Sub
-    Sub classes()
+    Sub MainMain()
         db.Open()
         Dim classes As New ArrayList
+        Dim students As New ArrayList
         For row As Integer = 2 To Excel.students.Rows.Count ' skip the titles row
+            ' Classes
             Using dbquery As New SQLite.SQLiteCommand(db)
                 dbquery.CommandText = "INSERT INTO Classes VALUES(@code,@fullname,@course,@units)"
                 Dim k(3) As SQLite.SQLiteParameter
@@ -33,13 +31,7 @@ Module Students
                     Console.WriteLine(vbTab & k(0).Value)
                 End If
             End Using
-        Next row
-        db.Close()
-    End Sub
-    Sub students()
-        db.Open()
-        Dim students As New ArrayList
-        For row As Integer = 2 To Excel.students.Rows.Count
+            ' Students 
             Using dbquery As New SQLite.SQLiteCommand(db)
                 dbquery.CommandText = "INSERT INTO Students VALUES(@stunumber,@surname,@cname,@house)"
                 Dim k(3) As SQLite.SQLiteParameter
@@ -56,6 +48,7 @@ Module Students
                     dbquery.ExecuteNonQuery()
                 End If
             End Using
+            ' Students classes
             Using dbquery As New SQLite.SQLiteCommand(db)
                 dbquery.CommandText = "INSERT INTO StudentsClasses VALUES(@stunumber,@class)"
                 Dim k(1) As SQLite.SQLiteParameter

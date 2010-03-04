@@ -36,3 +36,5 @@ _ReSharper*/
 *.swp
 *.out
 
+
+*.db
