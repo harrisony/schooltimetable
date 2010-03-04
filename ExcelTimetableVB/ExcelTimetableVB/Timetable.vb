@@ -1,18 +1,12 @@
-﻿Imports Excel = Microsoft.Office.Interop.Excel
+﻿Imports MSExcel = Microsoft.Office.Interop.Excel
 Imports System.Text.RegularExpressions
 Imports System.IO
 Module Timetable
-    Public xlApp As Excel.Application
-    Public xlWorkBook As Excel.Workbook
-    Public xlRange As Excel.Range
     Sub Main()
         Dim yearandrows As Dictionary(Of Integer, Array) ' A mapping of the Year level to how many rows
-        xlApp = New Excel.ApplicationClass
-        xlWorkBook = xlApp.Workbooks.Open("C:\Users\harrisony\Downloads\Mater TT Term 1  4 Feb.xls", , True)
-
         Dim outputfile As StreamWriter = New StreamWriter("timetable.txt")
-        For Each xlWorkSheet As Excel.Worksheet In xlWorkBook.Worksheets
-            xlRange = xlWorkSheet.UsedRange
+        For Each xlWorkSheet As MSExcel.Worksheet In Excel.timetable.Worksheets
+            Dim xlRange As MSExcel.Range = xlWorkSheet.UsedRange
             yearandrows = MatchYearsAndRows(xlRange)
             Dim day As String = GetDate(xlRange)
 
@@ -51,26 +45,26 @@ Module Timetable
         Next xlWorkSheet
         outputfile.Close()
     End Sub
-    Function MatchYearsAndRows(ByVal spreadsheet As Excel.Range) As Dictionary(Of Integer, Array)
+    Function MatchYearsAndRows(ByVal spreadsheet As MSExcel.Range) As Dictionary(Of Integer, Array)
         Dim c1, c2 As Integer
         Dim d As New Dictionary(Of Integer, Array)
-        For row As Integer = 4 To xlRange.Rows.Count
-            If xlRange.Cells(row, 1).Value <> "" Then
+        For row As Integer = 4 To Excel.timetable.Rows.Count
+            If Excel.timetable.Cells(row, 1).Value <> "" Then
                 c2 = c1
                 c1 = row
-                'MsgBox(xlRange.Cells(currentrow, 1).Value)
+                'MsgBox(Excel.timetable.Cells(currentrow, 1).Value)
                 If c2 <> 0 And c1 <> 0 Then
                     Dim k(1) As Integer
                     k(0) = c2
                     k(1) = c1 - c2 - 1
-                    d.Add((xlRange.Cells(c2, 1).Value), k)
+                    d.Add((Excel.timetable.Cells(c2, 1).Value), k)
                     c2 = 0
                 End If
             End If
         Next
         Return d
     End Function
-    Private Function GetDate(ByVal spreadsheet As Excel.Range) As String
+    Private Function GetDate(ByVal spreadsheet As MSExcel.Range) As String
         Return Regex.Split(spreadsheet.Cells(2, 1).Value, "  ")(2)
     End Function
 End Module
