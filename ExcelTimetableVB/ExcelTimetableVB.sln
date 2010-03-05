@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Converter", "ExcelTimetableVB\Converter.vbproj", "{19C6C881-73BA-48D6-AF3C-FA9A6E6F1C82}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Converter", "Converter\Converter.vbproj", "{19C6C881-73BA-48D6-AF3C-FA9A6E6F1C82}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Viewer", "Viewer\Viewer.vbproj", "{88A99E86-DD42-437E-A2A8-55E1E5B9B146}"
 EndProject
