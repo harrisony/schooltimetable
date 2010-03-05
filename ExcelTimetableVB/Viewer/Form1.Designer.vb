@@ -31,6 +31,8 @@ Partial Class Form1
         Me.StudentsBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.StudentsDataSet = New Viewer.studentsDataSet
         Me.StudentsTableAdapter = New Viewer.studentsDataSetTableAdapters.StudentsTableAdapter
+        Me.ComboBox2 = New System.Windows.Forms.ComboBox
+        Me.Button2 = New System.Windows.Forms.Button
         CType(Me.StudentsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StudentsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -93,11 +95,30 @@ Partial Class Form1
         '
         Me.StudentsTableAdapter.ClearBeforeFill = True
         '
+        'ComboBox2
+        '
+        Me.ComboBox2.FormattingEnabled = True
+        Me.ComboBox2.Location = New System.Drawing.Point(299, 235)
+        Me.ComboBox2.Name = "ComboBox2"
+        Me.ComboBox2.Size = New System.Drawing.Size(121, 21)
+        Me.ComboBox2.TabIndex = 5
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(117, 254)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 6
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(438, 364)
+        Me.Controls.Add(Me.Button2)
+        Me.Controls.Add(Me.ComboBox2)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ListBox1)
@@ -119,5 +140,7 @@ Partial Class Form1
     Friend WithEvents StudentsDataSet As Viewer.studentsDataSet
     Friend WithEvents StudentsBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents StudentsTableAdapter As Viewer.studentsDataSetTableAdapters.StudentsTableAdapter
+    Friend WithEvents ComboBox2 As System.Windows.Forms.ComboBox
+    Friend WithEvents Button2 As System.Windows.Forms.Button
 
 End Class
