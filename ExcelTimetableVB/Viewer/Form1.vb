@@ -4,12 +4,6 @@
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         Dim source As String
 
-        If Not db.State = ConnectionState.Open Then
-            'TODO:  I'm not keen on the below line, I'd rather we use the existing connection via ADO
-            ' It should also use ConnectionStrings("studentsConnectionString1") but it doesn't work for some reason
-            db.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings(1).ConnectionString
-            db.Open()
-        End If
         If Not Len(TextBox1.Text) = 0 Then
             source = TextBox1.Text
             ComboBox1.SelectedValue = 0  ' clear the combobox to remove confusion
@@ -50,17 +44,8 @@
             db.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings(1).ConnectionString
             db.Open()
         End If
-        Using query As New SQLite.SQLiteCommand(db)
-            query.CommandText = "SELECT Code from Classes"
-            Dim response As SQLite.SQLiteDataReader = query.ExecuteReader()
-            ComboBox2.Items.Clear()
-            If response.HasRows = True Then
-                While response.Read()
-                    ComboBox2.Items.Add(response.GetValue(0))
-                End While
-            Else
-            End If
-        End Using
+        Call adddatasource()
+
         Me.StudentsTableAdapter.Fill(Me.StudentsDataSet.Students)
 
     End Sub
@@ -68,7 +53,7 @@
     Private Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button2.Click
         Using query As New SQLite.SQLiteCommand(db)
             query.CommandText = "SELECT Students.CName || ' ' || Students.Surname as Test from StudentsClasses JOIN Students on (StudentsClasses.ComputerNumber = Students.ComputerNumber) WHERE Class = @class ORDER BY Students.Surname ASC"
-            query.Parameters.Add(New SQLite.SQLiteParameter("@class", ComboBox2.SelectedItem))
+            query.Parameters.Add(New SQLite.SQLiteParameter("@class", ComboBox2.SelectedValue))
             Dim response As SQLite.SQLiteDataReader = query.ExecuteReader()
             ListBox1.Items.Clear()
             If response.HasRows = True Then
@@ -81,10 +66,45 @@
         Using query As New SQLite.SQLiteCommand(db)
             Label1.Text = vbNullString
             query.CommandText = "SELECT Name FROM Classes WHERE Code = @code"
-            query.Parameters.Add(New SQLite.SQLiteParameter("@code", ComboBox2.SelectedItem))
+            query.Parameters.Add(New SQLite.SQLiteParameter("@code", ComboBox2.SelectedValue))
             Dim response As SQLite.SQLiteDataReader = query.ExecuteReader()
             Label1.Text = response.GetValue(0)
         End Using
 
     End Sub
+
+    Private Sub adddatasource()
+        Dim ds As New DataSet
+        Dim dt As DataTable
+        Dim dr As DataRow
+        Dim idCoulumn As DataColumn
+        Dim nameCoulumn As DataColumn
+
+        dt = New DataTable()
+        idCoulumn = New DataColumn("Code", Type.GetType("System.String"))
+        nameCoulumn = New DataColumn("Name", Type.GetType("System.String"))
+
+        dt.Columns.Add(idCoulumn)
+        dt.Columns.Add(nameCoulumn)
+        Using query As New SQLite.SQLiteCommand(db)
+            query.CommandText = "SELECT Name, Code FROM Classes"
+            Dim response As SQLite.SQLiteDataReader = query.ExecuteReader()
+            ListBox1.Items.Clear()
+            If response.HasRows = True Then
+                While response.Read()
+                    dr = dt.NewRow()
+                    dr("Code") = response.GetValue(1)
+                    dr("Name") = response.GetValue(0)
+                    dt.Rows.Add(dr)
+                End While
+            Else
+            End If
+        End Using
+        ds.Tables.Add(dt)
+        ComboBox2.DataSource = ds.Tables(0)
+        ComboBox2.DisplayMember = "Code"
+        ComboBox2.ValueMember = "Code"
+
+    End Sub
+
 End Class
