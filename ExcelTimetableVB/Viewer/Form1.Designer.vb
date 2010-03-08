@@ -24,7 +24,6 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.Button1 = New System.Windows.Forms.Button
-        Me.TextBox1 = New System.Windows.Forms.TextBox
         Me.ListBox1 = New System.Windows.Forms.ListBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.ComboBox1 = New System.Windows.Forms.ComboBox
@@ -32,9 +31,14 @@ Partial Class Form1
         Me.StudentsDataSet = New Viewer.studentsDataSet
         Me.StudentsTableAdapter = New Viewer.studentsDataSetTableAdapters.StudentsTableAdapter
         Me.ComboBox2 = New System.Windows.Forms.ComboBox
+        Me.ClassesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ClassesDataSet = New Viewer.ClassesDataSet
         Me.Button2 = New System.Windows.Forms.Button
+        Me.ClassesTableAdapter = New Viewer.ClassesDataSetTableAdapters.ClassesTableAdapter
         CType(Me.StudentsBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.StudentsDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ClassesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ClassesDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Button1
@@ -43,15 +47,8 @@ Partial Class Form1
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 0
-        Me.Button1.Text = "Button1"
+        Me.Button1.Text = "Student"
         Me.Button1.UseVisualStyleBackColor = True
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(117, 198)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox1.TabIndex = 1
         '
         'ListBox1
         '
@@ -71,7 +68,6 @@ Partial Class Form1
         '
         'ComboBox1
         '
-        Me.ComboBox1.DataBindings.Add(New System.Windows.Forms.Binding("SelectedValue", Me.StudentsBindingSource, "Surname", True))
         Me.ComboBox1.DataSource = Me.StudentsBindingSource
         Me.ComboBox1.DisplayMember = "Full_Name"
         Me.ComboBox1.FormattingEnabled = True
@@ -97,11 +93,25 @@ Partial Class Form1
         '
         'ComboBox2
         '
+        Me.ComboBox2.DataSource = Me.ClassesBindingSource
+        Me.ComboBox2.DisplayMember = "Code"
+        Me.ComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Location = New System.Drawing.Point(299, 235)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(121, 21)
         Me.ComboBox2.TabIndex = 5
+        Me.ComboBox2.ValueMember = "Code"
+        '
+        'ClassesBindingSource
+        '
+        Me.ClassesBindingSource.DataMember = "Classes"
+        Me.ClassesBindingSource.DataSource = Me.ClassesDataSet
+        '
+        'ClassesDataSet
+        '
+        Me.ClassesDataSet.DataSetName = "ClassesDataSet"
+        Me.ClassesDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'Button2
         '
@@ -109,8 +119,12 @@ Partial Class Form1
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 6
-        Me.Button2.Text = "Button2"
+        Me.Button2.Text = "Class"
         Me.Button2.UseVisualStyleBackColor = True
+        '
+        'ClassesTableAdapter
+        '
+        Me.ClassesTableAdapter.ClearBeforeFill = True
         '
         'Form1
         '
@@ -122,18 +136,18 @@ Partial Class Form1
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ListBox1)
-        Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Button1)
         Me.Name = "Form1"
         Me.Text = "Form1"
         CType(Me.StudentsBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.StudentsDataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ClassesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ClassesDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents Button1 As System.Windows.Forms.Button
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
@@ -142,5 +156,8 @@ Partial Class Form1
     Friend WithEvents StudentsTableAdapter As Viewer.studentsDataSetTableAdapters.StudentsTableAdapter
     Friend WithEvents ComboBox2 As System.Windows.Forms.ComboBox
     Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents ClassesDataSet As Viewer.ClassesDataSet
+    Friend WithEvents ClassesBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents ClassesTableAdapter As Viewer.ClassesDataSetTableAdapters.ClassesTableAdapter
 
 End Class
